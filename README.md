@@ -1,8 +1,8 @@
-#### Projects Infrastructure as Code -- Author: Thiago Reichert
+### Projects Infrastructure as Code -- Author: Thiago Reichert
 
+[TOC]
 
-
-#### Instalação e Configuração
+### Instalação e Configuração
 
 Instalar Vagrant
 
@@ -17,7 +17,7 @@ Instalar VirtualBox
 
 
 
-#### Acessos a VM:
+### Acessos a VM:
 
 ##### Acesso a VM pelo bash local:
 
@@ -34,14 +34,14 @@ ssh -i private_key vagrant@IP_PUB
 
 
 
-#### Montagem
+### Montagem
 
 Montagem entre host e guest: 
 DIR_LOCAL_HOST do Vagrantfile = /vagrant na VM
 
 
 
-#### Comandos úteis:
+### Comandos úteis:
 
 ##### Status da Máquina:
 
