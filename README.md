@@ -1,6 +1,6 @@
 ### Projects Infrastructure as Code -- Author: Thiago Reichert
 
-[TOC]
+
 
 ### Instalação e Configuração
 
@@ -13,7 +13,8 @@ Instalar VirtualBox
 
 
 1 - Copiar o arquivo Vagrantfile para um diretório local específico para esta atividade.
-2 - No bash acessar o diretório e executar "vagrant up"
+
+2 - No bash acessar o diretório e executar "vagrant up" para iniciar as VMs.
 
 
 
@@ -37,6 +38,7 @@ ssh -i private_key vagrant@IP_PUB
 ### Montagem
 
 Montagem entre host e guest: 
+
 DIR_LOCAL_HOST do Vagrantfile = /vagrant na VM
 
 
@@ -46,12 +48,21 @@ DIR_LOCAL_HOST do Vagrantfile = /vagrant na VM
 ##### Status da Máquina:
 
 vagrant up - Liga a VM
+
 vagrant suspend - Suspende a VM
+
 vagrant resume - Ativa a VM suspensa
+
 vagrant halt - Desliga a VM
+
 vagrant reload - Reinicia a VM se alterado o Vagrantfile
+
+
 
 ##### Outros comandos:
 
 vagrant ssh-config - Detalhes da configuração de SSH
+
 vagrant list-commands - Lista de comandos
+
+vagrant validate - Valida se o arquivo Vagrantfile está com a sintaxe correta.

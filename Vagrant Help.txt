@@ -1,0 +1,61 @@
+Por Thiago Reichert
+
+Documentação:
+
+  # Documentação https://docs.vagrantup.com
+  # Box = https://vagrantcloud.com/search.
+
+---------------------------------------------------------------------------------------------
+Iniciar configuração:
+
+# Configuração versão 2 do Vagrant
+Vagrant.configure("2") do |config|
+
+  # Definição Box
+  config.vm.box = "centos/7"
+
+  # Atualização automática do Box. Recomendável 'false'.
+  config.vm.box_check_update = false
+----------------------------------------------------------------------------------------------
+Maneiras de configurar network:
+
+  # Criação de forwarded port para linkar uma porta do guest ao host. Esta configuração é apenas privado.
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Criação de forwarded port com um IP específico, desta maneira impossibilita qualquer acesso público.
+  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Criação de private network, acessível apenas da máquina host, com IP estático.
+  config.vm.network "private_network", ip: "192.168.10.10"
+
+  # Criação de private network, com IP definido pelo servidor DHCP do VirtualBox.
+  config.vm.network "private_network", type: "dhcp"
+
+  # Criação de public network, associado a um bridged network.
+  # Bridged networks faz a máquina aparecer fisicamente na rede local.
+  config.vm.network "public_network", ip: "192.168.0.101"
+------------------------------------------------------------------------------------------------
+Pontos de montagem:
+
+  # Configurar pontos de montagem entre host e guest
+  config.vm.synced_folder "./files", "/vagrant"
+  # Desabilitar o sync default para não jogar o Vagrantfile para a VM
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+-------------------------------------------------------------------------------------------------
+Provider:
+ 
+ # Configuração provider
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = true
+    # Customize the amount of memory on the VM:
+    vb.memory = "1024"
+  end
+-------------------------------------------------------------------------------------------------
+Provision:
+
+ # Configuração provision   
+  config.vm.provision "shell", inline: <<-SHEL
+    ...
+  SHELL
