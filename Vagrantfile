@@ -8,11 +8,13 @@ Vagrant.configure("2") do |config|
   # Configuração de máquina virtual para Serviço WEB 
   config.vm.define "web" do |web|
     web.vm.network "public_network", ip: "192.168.0.101"
+    web.vm.synced_folder "./files", "/vagrant"
     web.vm.provision "shell", inline: <<-SHELL
       # yum update -y
       hostnamectl set-hostname vagrant-web
+      cat /vagrant/key/vagrant-key.pub >> .ssh/authorized_keys
       yum install epel-release -y
-      yum install net-tools mlocate nginx -y
+      yum install net-tools mlocate vim nginx -y
       systemctl start nginx.service
       systemctl enable nginx.service
     SHELL
@@ -21,11 +23,13 @@ Vagrant.configure("2") do |config|
   # Configuração de máquina virtual para Ansible
   config.vm.define "ansible" do |ansible|
     ansible.vm.network "public_network", ip: "192.168.0.102"
+    ansible.vm.synced_folder "./files", "/vagrant"
     ansible.vm.provision "shell", inline: <<-SHELL
       # yum update -y
       hostnamectl set-hostname vagrant-ansible
+      cat /vagrant/key/vagrant-key.pub >> .ssh/authorized_keys
       rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-      yum install net-tools mlocate ansible -y 
+      yum install net-tools mlocate vim ansible -y 
     SHELL
   end
 
@@ -33,16 +37,18 @@ Vagrant.configure("2") do |config|
   config.vm.define "php" do |php|
     php.vm.network "public_network", ip: "192.168.0.103"
     php.vm.network "forwarded_port", guest:80, host:8080
+    php.vm.synced_folder "./files", "/vagrant"
     php.vm.provision "shell", inline: <<-SHELL
       # yum update -y
       hostnamectl set-hostname vagrant-php
+      cat /vagrant/key/vagrant-key.pub >> .ssh/authorized_keys
       iptables -F
       rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
       rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
       
       yum install php71w-pdo php71w php71w-devel php71w-common php71w-gd php71w-pear /
                php71w-soap php71w-mbstring -y
-      yum install net-tools mlocate nodejs httpd telnet wget -y 
+      yum install net-tools mlocate vim nodejs httpd telnet wget -y 
       # Nodejs, npm e gulp
       curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
       curl -L https://npmjs.org/install.sh | sh
@@ -65,12 +71,14 @@ Vagrant.configure("2") do |config|
   config.vm.define "mysql" do |mysql|
     mysql.vm.network "public_network", ip: "192.168.0.104"
     mysql.vm.network "forwarded_port", guest:80, host:8081
+    mysql.vm.synced_folder "./files", "/vagrant"
     mysql.vm.provision "shell", inline: <<-SHELL
       # yum update -y
       hostnamectl set-hostname vagrant-mysql
+      cat /vagrant/key/vagrant-key.pub >> .ssh/authorized_keys
       rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
       rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
-      yum install net-tools mlocate php71w-mysql -y 
+      yum install net-tools mlocate vim php71w-mysql -y 
     SHELL
   end
 
