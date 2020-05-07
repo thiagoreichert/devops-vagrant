@@ -4,6 +4,10 @@
 Vagrant.configure("2") do |config|
   
   config.vm.box = "centos/7"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 512
+    vb.cpus = 1
+  end
 
   # Configuração de máquina virtual para Serviço WEB 
   config.vm.define "web" do |web|
@@ -28,8 +32,12 @@ Vagrant.configure("2") do |config|
       # yum update -y
       hostnamectl set-hostname vagrant-ansible
       cat /vagrant/key/vagrant-key.pub >> .ssh/authorized_keys
+      cp /vagrant/vagrant-key /home/vagrant
+      chmod 600 /home/vagrant/vagrant-key
+      chown vagrant:vagrant /home/vagrant/vagrant-key
       rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
       yum install net-tools mlocate vim ansible -y 
+      ansible-playbook -i /vagrant/configs/ansible/hosts /vagrant/configs/ansible/playbook.yaml
     SHELL
   end
 
@@ -37,6 +45,10 @@ Vagrant.configure("2") do |config|
   config.vm.define "php" do |php|
     php.vm.network "public_network", ip: "192.168.0.103"
     php.vm.network "forwarded_port", guest:80, host:8080
+    php.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 2
+      vb.name = "VM_PHP_7"      
     php.vm.synced_folder "./files", "/vagrant"
     php.vm.provision "shell", inline: <<-SHELL
       # yum update -y
@@ -67,7 +79,7 @@ Vagrant.configure("2") do |config|
     SHELL
   end
 
-  # Configuração de máquina virtual para PHP-MYSQL 7.1
+  # Configuração de máquina virtual para MYSQL 5.7
   config.vm.define "mysql" do |mysql|
     mysql.vm.network "public_network", ip: "192.168.0.104"
     mysql.vm.network "forwarded_port", guest:80, host:8081
@@ -78,7 +90,7 @@ Vagrant.configure("2") do |config|
       cat /vagrant/key/vagrant-key.pub >> .ssh/authorized_keys
       rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
       rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
-      yum install net-tools mlocate vim php71w-mysql -y 
+      yum install net-tools mlocate vim -y 
     SHELL
   end
 

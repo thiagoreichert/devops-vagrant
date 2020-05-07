@@ -47,10 +47,11 @@ Provider:
  
  # Configuração provider
   config.vm.provider "virtualbox" do |vb|
-    # Display the VirtualBox GUI when booting the machine
+    # Configurar se é para utilizar interface gráfica do S.O. Default: False
     vb.gui = true
-    # Customize the amount of memory on the VM:
-    vb.memory = "1024"
+    # Configurar quantidade de memória e CPU
+    vb.memory = 1024
+    vb.cpus = 1
   end
 -------------------------------------------------------------------------------------------------
 Provision:

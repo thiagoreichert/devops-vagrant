@@ -47,6 +47,10 @@ DIR_LOCAL_HOST do Vagrantfile = /vagrant na VM
 
 ##### Status da Máquina:
 
+vagrant status - Status das VMs no diretório atual
+
+vagrant global-status - Status das VMs de todo o host
+
 vagrant up - Liga a VM
 
 vagrant suspend - Suspende a VM
@@ -66,3 +70,9 @@ vagrant ssh-config - Detalhes da configuração de SSH
 vagrant list-commands - Lista de comandos
 
 vagrant validate - Valida se o arquivo Vagrantfile está com a sintaxe correta.
+
+
+
+### Configurações do Vagrantfile
+
+Verificar o arquivo Vagrant Help.
